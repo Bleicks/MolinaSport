@@ -63,8 +63,9 @@
     <section class="video-section">
         <div class="video-wrapper">
             <div class="video-container"> 
-                <video autoplay muted loop playsinline poster ="imgs/video.jpeg" class="bg-video">
+                <video controls poster="imgs/vid0.jpeg" style="object-fit: contain; background-color: #000;">
                     <source src="imgs/vid1.mp4" type="video/mp4">
+                    Tu navegador no soporta videos.
                 </video>
             </div>
         </div>
@@ -145,20 +146,35 @@
                     <a href="https://w.app/molinasport" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Consultar</a>
                 </div>
             </div>
+            <div class="product-card"> 
+                <div class="card-carousel" id="carousel-5">
+                        <img src="imgs/combo1.jpeg" class="mini-slide active">
+                        <img src="imgs/combo2.jpeg" class="mini-slide">
+                        <img src="imgs/combo3.jpeg" class="mini-slide">
+                        <button class="carousel-btn prev" onclick="moveSlide('carousel-5', -1)">&#10094;</button>
+                        <button class="carousel-btn next" onclick="moveSlide('carousel-4', 1)">&#10095;</button>
+                    </div>
+                <div class="card-content">
+                    <h3> COMBOS</h3>
+                    <p class="brands">Combos de calidad, lo que tu cuerpo necesita, Recuperación y Crecimiento:<br><br>
+                        <strong>Ena, Star Nutrition, One Fit, Max Force y Más</strong>
+                    </p>
+                    <a href="https://w.app/molinasport" target="-blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i>Consultar</a>
+                </div>
+            </div>    
             
             <div class="special-card">
                 <h3>¡Y MUCHO MÁS!</h3>
                 <p style="margin: 20px 0;">Contamos con quemadores de grasa, multivitamínicos, barras proteicas y MUCHO MÁS.</p>
                 <a href="https://w.app/molinasport" class="btn">Consultá el Catálogo Completo</a>
             </div>
-        </div>
     </section>
 
     <section id="planes" class="plans-section">
         <h2 class="section-title">PLANES DE ENTRENAMIENTO</h2>
         <p class="plans-intro"> Antes de seguir dejame que te muestre mi Certificado que me permite en mi dia a dia ofrecer mi experiencia y servicio dentro de este increible mundo</p>
         <section id="nosotros" class="about-section">
-        <div class="about-img">
+        <div class="about-imgg">
             <img src="imgs/titulo.png" alt="Gym Interior">
         </div>
         </section>
@@ -200,49 +216,135 @@
             <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://w.app/molinasport" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <p class="quote">"El dolor que sentis hoy es la fuerza que vas a sentir mañana."</p>
-        <p style="margin-top: 30px; font-size: 0.8rem; color: #555;">© 2025 MolinaSport.</p>
+        <p class="quote" style="color: white;">"El dolor que sentis hoy es la fuerza que vas a sentir mañana."</p>
+        <p style="margin-top: 30px; font-size: 0.8rem; color: #fff9f9;">© 2025 MolinaSport</p>
     </section>
 
     <script>
-        // Función para manejar los carruseles
-        function moveSlide(carouselId, direction) {
-            const carousel = document.getElementById(carouselId);
-            const slides = carousel.querySelectorAll('.mini-slide');
-            let activeIndex = 0;
-            
-            // Encontrar el slide activo actual
-            slides.forEach((slide, index) => {
-                if (slide.classList.contains('active')) {
-                    activeIndex = index;
-                    slide.classList.remove('active');
-                }
-            });
-            
-            // Calcular nuevo índice
-            let newIndex = activeIndex + direction;
-            
-            // Circular: si va más allá del último, vuelve al primero
-            if (newIndex >= slides.length) newIndex = 0;
-            if (newIndex < 0) newIndex = slides.length - 1;
-            
-            // Activar el nuevo slide
-            slides[newIndex].classList.add('active');
+        // FUNCIÓN PARA EL HERO SLIDER (solo este se auto-avanza)
+let currentHeroSlide = 0;
+const heroSlides = document.querySelectorAll('.hero-slider .slide');
+
+function showHeroSlide(n) {
+    heroSlides.forEach(slide => slide.classList.remove('active'));
+    heroSlides[n].classList.add('active');
+}
+
+function nextHeroSlide() {
+    currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+    showHeroSlide(currentHeroSlide);
+}
+
+// Auto avanzar hero slider cada 5 segundos
+setInterval(nextHeroSlide, 5000);
+
+// FUNCIÓN PARA LOS CARRUSELES DE PRODUCTOS (solo navegación manual)
+function moveSlide(carouselId, direction) {
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+    
+    const slides = carousel.querySelectorAll('.mini-slide');
+    let activeIndex = 0;
+    
+    slides.forEach((slide, index) => {
+        if (slide.classList.contains('active')) {
+            activeIndex = index;
+            slide.classList.remove('active');
         }
+    });
+    
+    let newIndex = activeIndex + direction;
+    
+    if (newIndex >= slides.length) newIndex = 0;
+    if (newIndex < 0) newIndex = slides.length - 1;
+    
+    slides[newIndex].classList.add('active');
+}
+
+// TOGGLE MENU PARA MÓVIL
+function toggleMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('active');
+}
+
+// Cerrar menú al hacer clic en un enlace (para móviles)
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.classList.remove('active');
+    });
+});
+
+// SMOOTH SCROLL PARA ENLACES INTERNOS
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
         
-        // Auto avanzar carruseles cada 5 segundos
-        setInterval(() => {
-            const carousels = document.querySelectorAll('.card-carousel');
-            carousels.forEach(carousel => {
-                const carouselId = carousel.id;
-                if (carouselId) {
-                    moveSlide(carouselId, 1);
-                }
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            const navHeight = document.querySelector('nav').offsetHeight;
+            const targetPosition = targetElement.offsetTop - navHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
             });
-        }, 5000);
+        }
+    });
+});
+
+// EFECTO DE APARICIÓN AL SCROLL
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+        }
+    });
+}, observerOptions);
+
+// Observar elementos para animación
+document.querySelectorAll('.product-card, .plan-card, .about-section').forEach(el => {
+    observer.observe(el);
+});
+
+// CAMBIO DE COLOR DEL NAV AL SCROLL
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 100) {
+        nav.style.background = 'linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(45, 45, 45, 0.98) 100%)';
+        nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
+    } else {
+        nav.style.background = 'linear-gradient(135deg, var(--gray-dark) 0%, rgba(45, 45, 45, 0.95) 100%)';
+        nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+    }
+});
+
+// INICIALIZACIÓN AL CARGAR LA PÁGINA
+document.addEventListener('DOMContentLoaded', () => {
+    // Mostrar primer slide del hero
+    showHeroSlide(0);
+    
+    // Añadir botón hamburguesa para móvil si no existe
+    if (window.innerWidth <= 768) {
+        const nav = document.querySelector('nav');
+        const menuToggle = document.createElement('button');
+        menuToggle.className = 'menu-toggle';
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        menuToggle.onclick = toggleMenu;
+        nav.appendChild(menuToggle);
+    }
+});
     </script>
 </body>
 </html>
+
 
 
 
